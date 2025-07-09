@@ -126,7 +126,8 @@ public class SMB2Manager: NSObject, NSSecureCoding, Codable, NSCopying, CustomRe
         self._workstation = workstation
         self._user = user
         self._password = credential?.password ?? ""
-        self._timeout = 60.0
+        // self._timeout = 60.0
+        self._timeout = 5.0 // reduce timeout
         super.init()
     }
 
@@ -201,7 +202,8 @@ public class SMB2Manager: NSObject, NSSecureCoding, Codable, NSCopying, CustomRe
         self._workstation = try container.decodeIfPresent(String.self, forKey: .workstation) ?? ""
         self._user = try container.decodeIfPresent(String.self, forKey: .user) ?? ""
         self._password = try container.decodeIfPresent(String.self, forKey: .password) ?? ""
-        self._timeout = try container.decodeIfPresent(TimeInterval.self, forKey: .timeout) ?? 60
+        // self._timeout = try container.decodeIfPresent(TimeInterval.self, forKey: .timeout) ?? 60
+        self._timeout = try container.decodeIfPresent(TimeInterval.self, forKey: .timeout) ?? 5 // reduce timeout
         super.init()
     }
 
