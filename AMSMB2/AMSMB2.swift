@@ -88,7 +88,7 @@ public class SMB2Manager: NSObject, NSSecureCoding, Codable, NSCopying, CustomRe
        - domain: User's domain, if applicable
        - credential: Username and password.
      */
-    public init?(url: URL, domain: String = "", credential: URLCredential?) {
+    public init?(url: URL, domain: String = "", credential: URLCredential?, timeout: Double = 60.0) {
         guard url.scheme?.lowercased() == "smb", url.host != nil else {
             return nil
         }
@@ -127,7 +127,7 @@ public class SMB2Manager: NSObject, NSSecureCoding, Codable, NSCopying, CustomRe
         self._user = user
         self._password = credential?.password ?? ""
         // self._timeout = 60.0
-        self._timeout = 5.0 // reduce timeout
+        self._timeout = timeout
         super.init()
     }
 
@@ -202,8 +202,7 @@ public class SMB2Manager: NSObject, NSSecureCoding, Codable, NSCopying, CustomRe
         self._workstation = try container.decodeIfPresent(String.self, forKey: .workstation) ?? ""
         self._user = try container.decodeIfPresent(String.self, forKey: .user) ?? ""
         self._password = try container.decodeIfPresent(String.self, forKey: .password) ?? ""
-        // self._timeout = try container.decodeIfPresent(TimeInterval.self, forKey: .timeout) ?? 60
-        self._timeout = try container.decodeIfPresent(TimeInterval.self, forKey: .timeout) ?? 5 // reduce timeout
+        self._timeout = try container.decodeIfPresent(TimeInterval.self, forKey: .timeout) ?? 60
         super.init()
     }
 
