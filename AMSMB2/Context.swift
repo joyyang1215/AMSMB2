@@ -24,10 +24,13 @@ final class SMB2Client: CustomDebugStringConvertible, CustomReflectable, @unchec
     deinit {
         if isConnected {
             try? self.disconnect()
+            isConnected = false // To prevent double disconnect
         }
         try? withThreadSafeContext { context in
-            self.context = nil
+            // Destroy context before setting it to nil
+            // self.context = nil
             smb2_destroy_context(context)
+            self.context = nil
         }
     }
 
